@@ -1,0 +1,12 @@
+Mon Jan 31 [23:51:51] WIB 2022
+[info] : waktu berlangganan otomatis diaktifkan.
+[info] : DNS terbuka.
+[info] : clash dimulai.
+[info] : port terdeteksi:1053
+[info] : port terdeteksi:47304
+[info] : port terdeteksi:7893
+[info] : port terdeteksi:9090
+[info] : port tproxy dan dns dimulai.
+[info] : aturan iptables untuk melewati ip lokal diperbarui.
+[info] : aturan iptables diterapkan.
+[info] : connect.
