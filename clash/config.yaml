@@ -1,0 +1,309 @@
+tproxy-port: 7893
+bind-address: '*'
+mode: rule
+allow-lan: true
+log-level: silent
+external-controller: 0.0.0.0:9090
+external-ui: yacd-gh-pages
+unified-delay: true
+ipv6: false
+dns:
+  enable: true
+  listen: 0.0.0.0:1053
+  enhanced-mode: fake-ip
+  fake-ip-range: 28.0.0.0/8
+  use-hosts: true
+  nameserver:
+    - https://cloudflare-dns.com/dns-query
+  fallback:
+    - 8.8.8.8
+proxies:
+  - {name: mastertrojan, server: masterwifi.xyz, port: 443, udp: true, type: trojan, password: xxxx-xxxx-xxxx-xxxx, sni: bing.com, skip-cert-verify: true}
+  - {name: mastergrpc, server: masterwifi.xyz, port: 443, udp: true, type: trojan, password: xxxx-xxxx-xxxx-xxxx, sni: bing.com, skip-cert-verify: true, tls: true, network: grpc, grpc-opts:, grpc-service-name: xray-trojan-grpc}
+
+
+proxy-groups:
+  - name: NEWMASTER
+    type: select
+    proxies:
+      - DIRECT
+      - SELECT
+      - BEST MASTER
+      - LB MASTER
+      
+  - name: SELECT
+    type: select
+    interval: 99
+    proxies:
+      - mastertrojan
+      - mastergrpc
+            
+  - name: BEST MASTER
+    type: url-test
+    interval: 99
+    proxies:
+      - mastertrojan
+      - mastergrpc
+
+  - name: LB MASTER
+    type: load-balance
+    proxies:
+      - mastertrojan
+      - mastergrpc
+    url: 'https://api.v2fly.org/checkConnection.svgz'
+    interval: 99
+    strategy: consistent-hashing
+    
+rule-providers:
+  Applemaster:
+    type: http
+    behavior: classical
+    url: "https://github.com/MasterWifiNetworkSolution/newconfig-masterscript-fakeip-online.yaml/blob/main/rule_provider/applemaster.yaml"
+    path: "./ruleset/applemaster.yaml"
+    interval: 86400
+  Browsermaster:
+    type: http
+    behavior: classical
+    url: "https://github.com/MasterWifiNetworkSolution/newconfig-masterscript-fakeip-online.yaml/blob/main/rule_provider/browsermaster.yaml"
+    path: "./ruleset/browsermaster.yaml"
+    interval: 86400
+  Callofdutymaster:
+    type: http
+    behavior: classical
+    url: "https://github.com/MasterWifiNetworkSolution/newconfig-masterscript-fakeip-online.yaml/blob/main/rule_provider/callofdutymaster.yaml"
+    path: "./ruleset/callofdutymaster.yaml"
+    interval: 86400
+  Deezermaster:
+    type: http
+    behavior: classical
+    url: "https://github.com/MasterWifiNetworkSolution/newconfig-masterscript-fakeip-online.yaml/blob/main/rule_provider/deezermaster.yaml"
+    path: "./ruleset/deezermaster.yaml"
+    interval: 86400
+  Disneymaster:
+    type: http
+    behavior: classical
+    url: "https://github.com/MasterWifiNetworkSolution/newconfig-masterscript-fakeip-online.yaml/blob/main/rule_provider/disneymaster.yaml"
+    path: "./ruleset/disneymaster.yaml"
+    interval: 86400
+  Facebookmaster:
+    type: http
+    behavior: classical
+    url: "https://github.com/MasterWifiNetworkSolution/newconfig-masterscript-fakeip-online.yaml/blob/main/rule_provider/facebookmaster.yaml"
+    path: "./ruleset/facebookmaster.yaml"
+    interval: 86400
+  Garenamaster:
+    type: http
+    behavior: classical
+    url: "https://github.com/MasterWifiNetworkSolution/newconfig-masterscript-fakeip-online.yaml/blob/main/rule_provider/garenamaster.yaml"
+    path: "./ruleset/garenamaster.yaml"
+    interval: 86400
+  Iklanmaster:
+    type: http
+    behavior: classical
+    url: "https://github.com/MasterWifiNetworkSolution/newconfig-masterscript-fakeip-online.yaml/blob/main/rule_provider/iklanmaster.yaml"
+    path: "./ruleset/iklanmaster.yaml"
+    interval: 86400
+  Instagrammaster:
+    type: http
+    behavior: classical
+    url: "https://github.com/MasterWifiNetworkSolution/newconfig-masterscript-fakeip-online.yaml/blob/main/rule_provider/instagrammaster.yaml"
+    path: "./ruleset/instagrammaster.yaml"
+    interval: 86400
+  LAN:
+    type: http
+    behavior: classical
+    url: "https://github.com/MasterWifiNetworkSolution/newconfig-masterscript-fakeip-online.yaml/blob/main/rule_provider/LAN.yaml"
+    path: "./ruleset/LAN.yaml"
+    interval: 86400
+  Langitmusikmaster:
+    type: http
+    behavior: classical
+    url: "https://github.com/MasterWifiNetworkSolution/newconfig-masterscript-fakeip-online.yaml/blob/main/rule_provider/langitmusikmaster.yaml"
+    path: "./ruleset/langitmusikmaster.yaml"
+    interval: 86400
+  Mobilegendsmaster:
+    type: http
+    behavior: classical
+    url: "https://github.com/MasterWifiNetworkSolution/newconfig-masterscript-fakeip-online.yaml/blob/main/rule_provider/mlmaster.yaml"
+    path: "./ruleset/mlmaster.yaml"
+    interval: 86400
+  Molamaster:
+    type: http
+    behavior: classical
+    url: "https://github.com/MasterWifiNetworkSolution/newconfig-masterscript-fakeip-online.yaml/blob/main/rule_provider/molamaster.yaml"
+    path: "./ruleset/molamaster.yaml"
+    interval: 86400
+  Maxtreammaster:
+    type: http
+    behavior: classical
+    url: "https://github.com/MasterWifiNetworkSolution/newconfig-masterscript-fakeip-online.yaml/blob/main/rule_provider/maxtreammaster.yaml"
+    path: "./ruleset/maxtreammaster.yaml"
+    interval: 86400
+  Netflixmaster:
+    type: http
+    behavior: classical
+    url: "https://github.com/MasterWifiNetworkSolution/newconfig-masterscript-fakeip-online.yaml/blob/main/rule_provider/netflixmaster.yaml"
+    path: "./ruleset/netflixmaster.yaml"
+    interval: 86400
+  Nimomaster:
+    type: http
+    behavior: classical
+    url: "https://github.com/MasterWifiNetworkSolution/newconfig-masterscript-fakeip-online.yaml/blob/main/rule_provider/nimomaster.yaml"
+    path: "./ruleset/nimomaster.yaml"
+    interval: 86400
+  Onlineshopmaster:
+    type: http
+    behavior: classical
+    url: "https://github.com/MasterWifiNetworkSolution/newconfig-masterscript-fakeip-online.yaml/blob/main/rule_provider/onlineshopmaster.yaml"
+    path: "./ruleset/onlineshopmaster.yaml"
+    interval: 86400
+  Pubgmaster:
+    type: http
+    behavior: classical
+    url: "https://github.com/MasterWifiNetworkSolution/newconfig-masterscript-fakeip-online.yaml/blob/main/rule_provider/pubgmaster.yaml"
+    path: "./ruleset/pubgmaster.yaml"
+    interval: 86400
+  Ressomaster:
+    type: http
+    behavior: classical
+    url: "https://github.com/MasterWifiNetworkSolution/newconfig-masterscript-fakeip-online.yaml/blob/main/rule_provider/ressomaster.yaml"
+    path: "./ruleset/ressomaster.yaml"
+    interval: 86400
+  Robloxmaster:
+    type: http
+    behavior: classical
+    url: "https://github.com/MasterWifiNetworkSolution/newconfig-masterscript-fakeip-online.yaml/blob/main/rule_provider/robloxmaster.yaml"
+    path: "./ruleset/robloxmaster.yaml"
+    interval: 86400
+  Rctiplusmaster:
+    type: http
+    behavior: classical
+    url: "https://github.com/MasterWifiNetworkSolution/newconfig-masterscript-fakeip-online.yaml/blob/main/rule_provider/rctiplusmaster.yaml"
+    path: "./ruleset/rctiplusmaster.yaml"
+    interval: 86400
+  Restreammaster:
+    type: http
+    behavior: classical
+    url: "https://github.com/MasterWifiNetworkSolution/newconfig-masterscript-fakeip-online.yaml/blob/main/rule_provider/restreammaster.yaml"
+    path: "./ruleset/restreammaster.yaml"
+    interval: 86400
+  Smulemaster:
+    type: http
+    behavior: classical
+    url: "https://github.com/MasterWifiNetworkSolution/newconfig-masterscript-fakeip-online.yaml/blob/main/rule_provider/smulemaster.yaml"
+    path: "./ruleset/smulemaster.yaml"
+    interval: 86400
+  Soundcloudmaster:
+    type: http
+    behavior: classical
+    url: "https://github.com/MasterWifiNetworkSolution/newconfig-masterscript-fakeip-online.yaml/blob/main/rule_provider/soundcloudmaster.yaml"
+    path: "./ruleset/soundcloudmaster.yaml"
+    interval: 86400
+  Starmakermaster:
+    type: http
+    behavior: classical
+    url: "https://github.com/MasterWifiNetworkSolution/newconfig-masterscript-fakeip-online.yaml/blob/main/rule_provider/starmakermaster.yaml"
+    path: "./ruleset/starmakermaster.yaml"
+    interval: 86400
+  Spotifymaster:
+    type: http
+    behavior: classical
+    url: "https://github.com/MasterWifiNetworkSolution/newconfig-masterscript-fakeip-online.yaml/blob/main/rule_provider/spotifymaster.yaml"
+    path: "./ruleset/spotifymaster.yaml"
+    interval: 86400
+  Speedtestmaster:
+    type: http
+    behavior: classical
+    url: "https://github.com/MasterWifiNetworkSolution/newconfig-masterscript-fakeip-online.yaml/blob/main/rule_provider/speedtestmaster.yaml"
+    path: "./ruleset/speedtestmaster.yaml"
+    interval: 86400
+  Tiktokmaster:
+    type: http
+    behavior: classical
+    url: "https://github.com/MasterWifiNetworkSolution/newconfig-masterscript-fakeip-online.yaml/blob/main/rule_provider/tiktokmaster.yaml"
+    path: "./ruleset/tiktokmaster.yaml"
+    interval: 86400
+  Twittermaster:
+    type: http
+    behavior: classical
+    url: "https://github.com/MasterWifiNetworkSolution/newconfig-masterscript-fakeip-online.yaml/blob/main/rule_provider/twittermaster.yaml"
+    path: "./ruleset/twittermaster.yaml"
+    interval: 86400
+  Universitasmaster:
+    type: http
+    behavior: classical
+    url: "https://github.com/MasterWifiNetworkSolution/newconfig-masterscript-fakeip-online.yaml/blob/main/rule_provider/universitasmaster.yaml"
+    path: "./ruleset/universitasmaster.yaml"
+    interval: 86400
+  Vidiomaster:
+    type: http
+    behavior: classical
+    url: "https://github.com/MasterWifiNetworkSolution/newconfig-masterscript-fakeip-online.yaml/blob/main/rule_provider/vidiomaster.yaml"
+    path: "./ruleset/vidiomaster.yaml"
+    interval: 86400
+  Wesingmaster:
+    type: http
+    behavior: classical
+    url: "https://github.com/MasterWifiNetworkSolution/newconfig-masterscript-fakeip-online.yaml/blob/main/rule_provider/wesingmaster.yaml"
+    path: "./ruleset/wesingmaster.yaml"
+    interval: 86400
+  Whatsappmaster:
+    type: http
+    behavior: classical
+    url: "https://github.com/MasterWifiNetworkSolution/newconfig-masterscript-fakeip-online.yaml/blob/main/rule_provider/whatsappmaster.yaml"
+    path: "./ruleset/whatsappmaster.yaml"
+    interval: 86400
+  Youtubemaster:
+    type: http
+    behavior: classical
+    url: "https://github.com/MasterWifiNetworkSolution/newconfig-masterscript-fakeip-online.yaml/blob/main/rule_provider/youtubemaster.yaml"
+    path: "./ruleset/youtubemaster.yaml"
+    interval: 86400
+  Zoommaster:
+    type: http
+    behavior: classical
+    url: "https://github.com/MasterWifiNetworkSolution/newconfig-masterscript-fakeip-online.yaml/blob/main/rule_provider/zoommaster.yaml"
+    path: "./ruleset/zoommaster.yaml"
+    interval: 86400
+rules:
+  - IP-CIDR,198.18.0.1/16,REJECT,no-resolve
+  - RULE-SET,Iklanmaster,REJECT
+  - RULE-SET,LAN,DIRECT
+  - RULE-SET,Instagrammaster,NEWMASTER
+  - RULE-SET,Tiktokmaster,NEWMASTER
+  - RULE-SET,Whatsappmaster,DIRECT
+  - RULE-SET,Deezermaster,DIRECT
+  - RULE-SET,Langitmusikmaster,DIRECT
+  - RULE-SET,Mobilegendsmaster,DIRECT
+  - RULE-SET,Ressomaster,DIRECT
+  - RULE-SET,Smulemaster,DIRECT
+  - RULE-SET,Soundcloudmaster,DIRECT
+  - RULE-SET,Starmakermaster,DIRECT
+  - RULE-SET,Wesingmaster,DIRECT
+  - RULE-SET,Pubgmaster,NEWMASTER
+  - RULE-SET,Garenamaster,NEWMASTER
+  - RULE-SET,Callofdutymaster,NEWMASTER
+  - RULE-SET,Robloxmaster,NEWMASTER
+  - RULE-SET,Facebookmaster,NEWMASTER
+  - RULE-SET,Twittermaster,NEWMASTER
+  - RULE-SET,Youtubemaster,NEWMASTER
+  - RULE-SET,Vidiomaster,NEWMASTER
+  - RULE-SET,Netflixmaster,NEWMASTER
+  - RULE-SET,Nimomaster,NEWMASTER
+  - RULE-SET,Disneymaster,NEWMASTER
+  - RULE-SET,Rctiplusmaster,NEWMASTER
+  - RULE-SET,Molamaster,NEWMASTER
+  - RULE-SET,Maxtreammaster,NEWMASTER
+  - RULE-SET,Restreammaster,NEWMASTER
+  - RULE-SET,Spotifymaster,NEWMASTER
+  - RULE-SET,Applemaster,NEWMASTER
+  - RULE-SET,Browsermaster,NEWMASTER
+  - RULE-SET,Onlineshopmaster,NEWMASTER
+  - RULE-SET,Universitasmaster,NEWMASTER
+  - RULE-SET,Speedtestmaster,NEWMASTER
+  - RULE-SET,Zoommaster,NEWMASTER
+  - IP-CIDR,8.8.8.0/24,NEWMASTER
+  - IP-CIDR,1.1.1.0/24,NEWMASTER
+  - IP-CIDR,208.67.220.0/24,NEWMASTER
+  - GEOIP,CN,DIRECT
+  - MATCH,NEWMASTER
